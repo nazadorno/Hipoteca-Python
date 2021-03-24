@@ -15,15 +15,14 @@ while saldo > 0:
     
     meses = meses + 1   
 
-    if meses >= pago_extra_mes_comienzo and meses <= pago_extra_mes_fin and saldo > pago_mensual:
-        total_pagado = total_pagado + pago_mensual  + pago_extra
-        saldo = saldo * (1+tasa/12) - pago_mensual - pago_extra 
-    elif saldo > pago_mensual:
-       total_pagado = total_pagado + pago_mensual 
-       saldo = saldo * (1+tasa/12) - pago_mensual 
-    else:
-        total_pagado = total_pagado + saldo 
-        saldo = 0    
+    if meses >= pago_extra_mes_comienzo and meses <= pago_extra_mes_fin:
+        pago_mensual_ef = pago_mensual + pago_extra 
+    else: 
+       pago_mensual_ef = pago_mensual
+    if pago_mensual_ef > saldo * (1 + tasa/12):
+        pago_mensual_ef = saldo * (1 + tasa/12)
+    saldo = saldo * (1 + tasa/12) - pago_mensual_ef
+    total_pagado = total_pagado + pago_mensual_ef           
     print(meses, round(total_pagado,2), round(saldo,2)) 
 
 print(f'Total pagado: {round(total_pagado, 2)} Meses: {meses}')
